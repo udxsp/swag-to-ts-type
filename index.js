@@ -1,17 +1,20 @@
 import fs from 'fs';
+import axios from 'axios';
 
 function toPascalCase(str) {
     return str
-      // Prima, sostituisci ogni '/' con uno spazio per identificare le parole
-      .replace(/\//g, ' ')
-      // Poi, converti ogni parola in PascalCase
-      .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
-        if (+match === 0) return ""; // Rimuove gli spazi
-        return index === 0 ? match.toUpperCase() : match.slice(1).toUpperCase();
-      })
-      // Infine, rimuovi i caratteri '-' e '_' e converti il carattere successivo in maiuscolo
-      .replace(/[-_](.)/g, (match, group1) => group1.toUpperCase());
-  }
+        // Prima, sostituisci ogni '/' con uno spazio per identificare le parole
+        .replace(/\//g, ' ')
+        // Poi, converti ogni parola in PascalCase
+        .replace(/(?:^\w|[A-Z]|\b\w)/g, function(match, index) {
+            return match.toUpperCase();
+        })
+        // Infine, rimuovi i caratteri '-' e '_' e converti il carattere successivo in maiuscolo
+        .replace(/[-_]\w/g, function(match) {
+            return match.charAt(1).toUpperCase();
+        })
+        .replace(/\s+/g, '');
+}
   
 
 // Funzione per generare i tipi TypeScript dagli schemi Swagger
@@ -30,12 +33,14 @@ function generateTypes(schema) {
 }
 
 // Funzione principale per convertire Swagger in TypeScript
-function convertSwaggerToTS(swaggerFilePath, outputFilePath) {
+async function convertSwaggerToTS(swaggerUrl, outputFilePath) {
   try {
+    const response = await axios.get(swaggerUrl);
     // Legge e parse il file Swagger
-    const swaggerContent = fs.readFileSync(swaggerFilePath, 'utf8');
-    const swaggerJSON = JSON.parse(swaggerContent);
+
+    const swaggerJSON = response.data;
     let tsContent = '';
+    
 
     // Genera tipi per le definizioni
     const definitions = {};
@@ -45,7 +50,7 @@ function convertSwaggerToTS(swaggerFilePath, outputFilePath) {
         const def = swaggerJSON.definitions[defName];
         const type = generateTypes(def);
         definitions[defName] = defName;
-        tsContent += `type ${defName} = ${type};\n\n`;
+        tsContent += `export type ${defName} = ${type};\n\n`;
       }
     }
 
@@ -99,8 +104,8 @@ function convertSwaggerToTS(swaggerFilePath, outputFilePath) {
 }
 
 // Percorsi dei file Swagger di input e TypeScript di output
-const swaggerFilePath = './swagger.json';
-const outputFilePath = './types.ts';
+const swaggerUrl = process.argv[2];
+const outputFilePath = './types/rest_types.ts';
 
 // Esegue la conversione
-convertSwaggerToTS(swaggerFilePath, outputFilePath);
+await convertSwaggerToTS(swaggerUrl, outputFilePath);
