@@ -11,7 +11,7 @@ if (!linkFileFrom) {
 }
 
 try {
-	execSync(`npm run generate -- ${linkFileFrom}`, { stdio: "inherit" })
+	execSync(`node docgen.js ${linkFileFrom}`, { stdio: "inherit" })
 } catch (error) {
 	console.error('Error running "npm run generate":', error)
 	process.exit(1) // Exit with error code
