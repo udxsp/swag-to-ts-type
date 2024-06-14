@@ -182,12 +182,15 @@ const outputFilePath = "./types/rest_types.ts"
 
 // Execute the conversion
 convertSwaggerToTS(swaggerUrl, outputFilePath).catch(console.error)
+console.info("Loading formatting tools...")
 
 // Esegui Prettier per formattare il file generato
-exec(`prettier --write ${outputFilePath}`, (err, stdout, stderr) => {
-	if (err) {
-		console.error("Errore durante l'esecuzione di Prettier:", err)
-		return
-	}
-	console.log(`Prettier ha formattato il file: ${outputFilePath}`)
-})
+setTimeout(() => {
+	exec(`prettier --write ${outputFilePath}`, (err, stdout, stderr) => {
+		if (err) {
+			console.error("Errore durante l'esecuzione di Prettier:", err)
+			return
+		}
+		console.log(`Prettier ha formattato il file: ${outputFilePath}`)
+	})
+}, 4000)
