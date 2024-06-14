@@ -1,6 +1,6 @@
 {
 	"type": "module",
-	"name": "swagger-to-ts-type",
+	"name": "@udxsp/swagger-to-ts-type",
 	"version": "1.0.0",
 	"description": "Convert Swagger (OpenAPI 2.0) API definitions into TypeScript types.",
 	"main": "index.js",
@@ -9,6 +9,11 @@
 		"format": "prettier --write ./types/rest_types.ts",
 		"test": "vitest"
 	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/udxsp/swag-to-ts-type.git"
+	},
+	"homepage": "https://github.com/udxsp/swag-to-ts-type#readme",
 	"keywords": [
 		"swagger",
 		"typescript",
