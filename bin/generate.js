@@ -1,14 +1,10 @@
 #!/usr/bin/env node
 
-import { spawnSync } from "child_process"
-import { resolve, dirname } from "path"
+import {  exec } from "child_process"
+import { dirname } from "path"
 import { fileURLToPath } from "url"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-
-const { exec } = require('child_process');
-const path = require('path');
-
 const swaggerUrl = process.argv[2];
 
 if (!swaggerUrl) {
