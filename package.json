@@ -1,7 +1,7 @@
 {
 	"type": "module",
 	"name": "@udxsp/swagger-to-ts-type",
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"description": "Convert Swagger (OpenAPI 2.0) API definitions into TypeScript types.",
 	"main": "index.js",
 	"bin": {
