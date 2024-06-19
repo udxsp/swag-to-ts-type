@@ -6,8 +6,6 @@ import { fileURLToPath } from "url"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-#!/usr/bin/env node
-
 const { exec } = require('child_process');
 const path = require('path');
 
