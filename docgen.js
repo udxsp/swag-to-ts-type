@@ -186,7 +186,7 @@ console.info("Loading formatting tools...")
 
 // Esegui Prettier per formattare il file generato
 setTimeout(() => {
-	exec(`prettier --write ${outputFilePath}`, (err, stdout, stderr) => {
+	exec(`npx prettier --write ${outputFilePath}`, (err, stdout, stderr) => {
 		if (err) {
 			console.error("Errore durante l'esecuzione di Prettier:", err)
 			return

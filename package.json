@@ -5,7 +5,7 @@
 	"description": "Convert Swagger (OpenAPI 2.0) API definitions into TypeScript types.",
 	"main": "index.js",
 	"bin": {
-		"docgen": "./bin/generate.js"
+		"swagger-to-ts-type": "./bin/generate.js"
 	},
 	"scripts": {
 		"generate": "node docgen.js",

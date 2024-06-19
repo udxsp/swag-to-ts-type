@@ -6,24 +6,35 @@ import { fileURLToPath } from "url"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-const args = process.argv.slice(2) // Get the command line arguments
-const linkFileFrom = args[0] // Assume the parameter is the first argument
+#!/usr/bin/env node
 
-if (!linkFileFrom) {
-	console.error("Error: link_file_from parameter is required.")
-	process.exit(1)
+const { exec } = require('child_process');
+const path = require('path');
+
+const swaggerUrl = process.argv[2];
+
+if (!swaggerUrl) {
+  console.error('Usage: swagger-to-ts-type <your-swagger-file-url>');
+  process.exit(1);
 }
 
-// Resolve the path to docgen.js relative to this script
-const scriptPath = resolve(__dirname, "../docgen.js")
+function generateTypes(swaggerUrl) {
+  const scriptPath = path.resolve(__dirname, '../docgen.js');
+  const command = `node ${scriptPath} ${swaggerUrl}`;
 
-const result = spawnSync("node", [scriptPath, linkFileFrom], {
-	stdio: "inherit",
-})
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing script: ${error.message}`);
+      return;
+    }
 
-if (result.error) {
-	console.error('Error running "node docgen.js":', result.error)
-	process.exit(1)
+    if (stderr) {
+      console.error(`Script error: ${stderr}`);
+      return;
+    }
+
+    console.log(stdout);
+  });
 }
 
-process.exit(result.status)
+generateTypes(swaggerUrl);
