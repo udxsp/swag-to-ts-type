@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import {  exec } from "child_process"
-import { dirname } from "path"
+import { dirname, path } from "path"
 import { fileURLToPath } from "url"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
