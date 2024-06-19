@@ -1,6 +1,7 @@
 import fs from "fs"
 import axios from "axios"
 import { exec } from "child_process"
+import path, { dirname } from "path"
 
 /**
  * Converts a string to PascalCase.
@@ -179,6 +180,13 @@ export async function convertSwaggerToTS(swaggerUrl, outputFilePath) {
 // Input and output file paths for Swagger JSON and TypeScript definitions
 const swaggerUrl = process.argv[2]
 const outputFilePath = "./types/rest_types.ts"
+
+const outputDir = path.dirname(outputFilePath)
+
+// Controlla se la directory esiste, se no, creala
+if (!fs.existsSync(outputDir)) {
+  fs.mkdirSync(outputDir, { recursive: true })
+}
 
 // Execute the conversion
 convertSwaggerToTS(swaggerUrl, outputFilePath).catch(console.error)
